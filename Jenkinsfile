@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'develop',
-                    credentialsId: 'Final-access-token',
-                    url: 'https://github.com/codieSam/crud-app.git'
+                git branch: 'master',
+                    
+                    url: 'https://github.com/ramharistha/portfolio-website.git'
             }
         }
 
