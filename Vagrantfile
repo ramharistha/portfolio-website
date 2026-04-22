@@ -7,10 +7,11 @@ Vagrant.configure("2") do |config|
     v.vmx["memsize"] = "2048"
     v.vmx["numvcpus"] = "2"
     v.gui = true
+    v.vmx["displayName"] = "CRUD"
     # v.gui enables vmware to use it in gui form
   end
   # Port forwarding for Node app / Jenkins
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 3000, host: 3001
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   config.vm.provision "shell", inline: <<-SHELL
@@ -49,12 +50,12 @@ Vagrant.configure("2") do |config|
     # Install Docker Compose )
     apt install -y docker-compose-plugin
     # Run Jenkins container
-    docker run -d \
-      --name jenkins \
-      -p 8080:8080 \
-      -p 50000:50000 \
-      -v jenkins_home:/var/jenkins_home \
-      jenkins/jenkins:lts
+    docker run -d   --name jenkins   -p 8080:8080   -p 50000:50000   -v jenkins_home:/var/jenkins_home   -v /var/run/docker.sock:/var/run/docker.sock   -v /usr/bin/docker:/usr/bin/docker   jenkins/jenkins:lts
+
+     # Fix permission
+    sudo usermod -aG docker jenkins
+    sudo chmod 666 /var/run/docker.sock
+
 
   SHELL
 end
