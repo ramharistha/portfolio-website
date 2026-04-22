@@ -15,13 +15,19 @@ pipeline {
         }
 
         stage('Build & Deploy') {
-            steps {
-                sh '''
-                docker compose down || true
+    steps {
+        sh '''
+        docker build -t crud-app .
 
-                MONGO_URI=$MONGO_URI docker compose up -d --build
-                '''
-            }
-        }
+        docker rm -f crud-app-container || true
+
+        docker run -d \
+            --name crud-app-container \
+            -p 3000:3000 \
+            -e MONGO_URI=$MONGO_URI \
+            crud-app
+        '''
+    }
+}
     }
 }
