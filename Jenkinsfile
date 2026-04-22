@@ -1,27 +1,26 @@
 pipeline {
     agent any
 
+    environment {
+        MONGO_URI = credentials('MONGO_URI')
+    }
+
     stages {
-        stage('Clone Repository') {
+
+        stage('Clone Repo') {
             steps {
                 git branch: 'master',
-                    
                     url: 'https://github.com/ramharistha/portfolio-website.git'
             }
         }
 
- 
-
-        stage('Build Docker Image') {
+        stage('Build & Deploy') {
             steps {
-                sh 'docker build -t crud-app .'
-            }
-        }
+                sh '''
+                docker compose down || true
 
-        stage('Run Container') {
-            steps {
-                sh 'docker rm -f crud-app-container || true'
-                sh 'docker run -d --name crud-app-container -p 3000:3000 crud-app'
+                MONGO_URI=$MONGO_URI docker compose up -d --build
+                '''
             }
         }
     }
