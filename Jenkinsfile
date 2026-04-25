@@ -9,7 +9,6 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-<<<<<<< HEAD
                 git branch: 'feature/devops-ci',
                    // credentialsId: 'crud',
                     url: 'https://github.com/ramharistha/portfolio-website.git'
@@ -17,12 +16,6 @@ pipeline {
             }
         }
         
-=======
-                git branch: 'master',
-                    url: 'https://github.com/ramharistha/portfolio-website.git'
-            }
-        }
->>>>>>> b9a12c6fb2d710c2bd9954f030fc3ff89adbe952
 
         stage('Build & Deploy') {
     steps {
