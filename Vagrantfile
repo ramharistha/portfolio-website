@@ -11,7 +11,11 @@ Vagrant.configure("2") do |config|
     # v.gui enables vmware to use it in gui form
   end
   # Port forwarding for Node app / Jenkins
+<<<<<<< HEAD
   config.vm.network "forwarded_port", guest: 3000, host: 3000
+=======
+  config.vm.network "forwarded_port", guest: 3000, host: 3001
+>>>>>>> b9a12c6fb2d710c2bd9954f030fc3ff89adbe952
   config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   config.vm.provision "shell", inline: <<-SHELL
@@ -26,7 +30,21 @@ Vagrant.configure("2") do |config|
     curl -fsSL https://deb.nodesource.com/setup_24.x | sudo bash -
     apt install -y nodejs
 
+<<<<<<< HEAD
    
+=======
+   curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+      gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+    echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/7.0 multiverse" | \
+      tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+    apt-get update
+    apt-get install -y mongodb-org mongodb-mongosh
+
+    systemctl enable mongod
+    systemctl start mongod
+>>>>>>> b9a12c6fb2d710c2bd9954f030fc3ff89adbe952
     # Install Docker 
     curl -fsSL https://get.docker.com | sh
 
@@ -43,6 +61,10 @@ Vagrant.configure("2") do |config|
     docker run -d   --name jenkins   -p 8080:8080   -p 50000:50000   -v jenkins_home:/var/jenkins_home   -v /var/run/docker.sock:/var/run/docker.sock   -v /usr/bin/docker:/usr/bin/docker   jenkins/jenkins:lts
 
      # Fix permission
+<<<<<<< HEAD
+=======
+    sudo usermod -aG docker jenkins
+>>>>>>> b9a12c6fb2d710c2bd9954f030fc3ff89adbe952
     sudo chmod 666 /var/run/docker.sock
 
 
