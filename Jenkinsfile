@@ -9,8 +9,8 @@ pipeline {
         stage('Clone Repo') {
             steps {
                 git branch: 'master',
-                    credentialsId: 'crud',
-                    url: 'https://github.com/codieSam/crud-app.git'
+                   // credentialsId: 'crud',
+                    url: 'https://github.com/ramharistha/portfolio-website.git'
             }
         }
 
